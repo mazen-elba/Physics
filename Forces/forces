@@ -8,15 +8,15 @@ class Forces:
         return (v2 - v1) / (t2 - t1)
 
     # force = mass of body multiplied by acceleration
-
     def force(self, m, a):
         return m * a
 
     # gravitational force between two bodies = product of their masses and gravitational constant divided by the distance between their center of mass
-
-    def gravitationalForce(self, m1, m2, r):
-        G = 6.67 * 10**(-11)      # acceleration
+    def gravitationalForceTwoMasses(self, m1, m2, r, G=6.67*10**(-11)):
         return (G * m1 * m2) / r**2
+
+    def gravitationalForceOneMass(self, m, g):
+        return m * g
 
 
 # --- Test Cases --- #
@@ -24,20 +24,46 @@ if __name__ == "__main__":
 
     f = Forces()
 
-    v1 = int(input("Enter Initial Velcoity (m/s) = "))
-    v2 = int(input("Enter Final Velocity (m/s) = "))
-    t1 = int(input("Enter Initial Time (s) = "))
-    t2 = int(input("Enter Final Time (s) = "))
+    choice = input(
+        "Choose from the following functions to execute: 1-acceleration, 2-force, 3-gravitational force between 2 objects, 4-gravitational force on 1 object ")
 
-    m = int(input("Enter a Mass (kg) = "))
-    a = f.acceleration(v1, v2, t1, t2)
+    if choice == "1":
+        v1 = int(input("Enter Initial Velcoity (m/s) = "))
+        v2 = int(input("Enter Final Velocity (m/s) = "))
+        t1 = int(input("Enter Initial Time (s) = "))
+        t2 = int(input("Enter Final Time (s) = "))
+        print("Acceleration is {:.2f} (m/s^2), or {:.2f} (g).".format(
+            f.acceleration(v1, v2, t1, t2), f.acceleration(v1, v2, t1, t2) / 10))
+    elif choice == "2":
+        m = int(input("Enter a Mass (kg) = "))
+        v1 = int(input("Enter Initial Velcoity (m/s) = "))
+        v2 = int(input("Enter Final Velocity (m/s) = "))
+        t1 = int(input("Enter Initial Time (s) = "))
+        t2 = int(input("Enter Final Time (s) = "))
+        a = f.acceleration(v1, v2, t1, t2)
+        print("Force of object is {:.2f} (N).".format(
+            f.force(m, a)))
+    elif choice == "3":
+        m1 = int(input("Enter Mass for first body (kg) = "))
+        m2 = int(input("Enter Mass for second body (kg) = "))
+        r = int(input("Enter distance between center of mass of bodies (m) = "))
+        print("Graviational Force on both objects is {:.2f} (N).".format(
+            f.gravitationalForceTwoMasses(m1, m2, r)))
+    elif choice == "4":
+        m = int(input("What is the mass of the object? (kg) "))
+        gChoice = input(
+            "Choose an acceleration constant from the following (if not earth): sun, moon, mars, jupiter - ")
 
-    m1 = int(input("Enter Mass for first body (kg) = "))
-    m2 = int(input("Enter Mass for second body (kg) = "))
-    r = int(input("Enter distance between center of mass of bodies (m) = "))
-
-    print(
-        "Acceleration is {:.2f} (m/s^2), or {:.2f} (g).".format(f.acceleration(v1, v2, t1, t2), f.acceleration(v1, v2, t1, t2) / 10))
-    print("Force generated is {:.2f} (N).".format(f.force(m, a)))
-    print("Gravitation Force between the two bodies is {:.2f} (N).".format(
-        f.gravitationalForce(m1, m2, r)))
+        if gChoice == "moon":
+            g = 1.62
+        elif gChoice == "mars":
+            g = 3.711
+        elif gChoice == "jupiter":
+            g = 24.79
+        elif gChoice == "sun":
+            g = 279
+        else:
+            gChoice = "earth"
+            g = 9.807  # earth
+        print("Graviational Force on the surface of the {} is {:.2f} (N).".format(gChoice,
+                                                                                  f.gravitationalForceOneMass(m, g)))
