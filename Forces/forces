@@ -1,0 +1,43 @@
+class Forces:
+    # constructor
+    def __init__(self):
+        return
+
+    # acceleration = change in velocity / elapsed time
+    def acceleration(self, v1, v2, t1, t2):
+        return (v2 - v1) / (t2 - t1)
+
+    # force = mass of body multiplied by acceleration
+
+    def force(self, m, a):
+        return m * a
+
+    # gravitational force between two bodies = product of their masses and gravitational constant divided by the distance between their center of mass
+
+    def gravitationalForce(self, m1, m2, r):
+        G = 6.67 * 10**(-11)      # acceleration
+        return (G * m1 * m2) / r**2
+
+
+# --- Test Cases --- #
+if __name__ == "__main__":
+
+    f = Forces()
+
+    v1 = int(input("Enter Initial Velcoity (m/s) = "))
+    v2 = int(input("Enter Final Velocity (m/s) = "))
+    t1 = int(input("Enter Initial Time (s) = "))
+    t2 = int(input("Enter Final Time (s) = "))
+
+    m = int(input("Enter a Mass (kg) = "))
+    a = f.acceleration(v1, v2, t1, t2)
+
+    m1 = int(input("Enter Mass for first body (kg) = "))
+    m2 = int(input("Enter Mass for second body (kg) = "))
+    r = int(input("Enter distance between center of mass of bodies (m) = "))
+
+    print(
+        "Acceleration is {:.2f} (m/s^2), or {:.2f} (g).".format(f.acceleration(v1, v2, t1, t2), f.acceleration(v1, v2, t1, t2) / 10))
+    print("Force generated is {:.2f} (N).".format(f.force(m, a)))
+    print("Gravitation Force between the two bodies is {:.2f} (N).".format(
+        f.gravitationalForce(m1, m2, r)))

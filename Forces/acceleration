@@ -7,34 +7,43 @@
 # --- Units of Acceleration: 1 m/s^2 = g/10 -- #
 
 
-def accelerationStraightPath(initialVelocity, finalVelocity, initialTime, finalTime):
-    changeInSpeed = finalVelocity - initialVelocity
-    elapsedTime = finalTime - initialTime
+class Acceleration:
+    # constructor
+    def __init__(self):
+        return
 
-    acceleration = changeInSpeed / elapsedTime
+    # acceleration in a straight path
+    def accelerationStraightPath(self, initialVelocity, finalVelocity, initialTime, finalTime):
+        changeInSpeed = finalVelocity - initialVelocity
+        elapsedTime = finalTime - initialTime
 
-    return str(acceleration) + " meters/seconds^2" + " or " + str(acceleration/10) + " grams."
+        acceleration = changeInSpeed / elapsedTime
 
+        return str(acceleration) + " meters/seconds^2" + " or " + str(acceleration/10) + " grams."
 
-def accelerationCurvedPath(velocity, curvatureRadius):
+    # acceleration in a curved path
+    def accelerationCurvedPath(self, velocity, curvatureRadius):
 
-    acceleration = velocity**2 / curvatureRadius
+        acceleration = velocity**2 / curvatureRadius
 
-    return str(acceleration) + " meters/seconds^2" + " or " + str(acceleration/10) + " grams."
+        return str(acceleration) + " meters/seconds^2" + " or " + str(acceleration/10) + " grams."
 
 
 # --- Test Cases Driver Program --- #
 if __name__ == "__main__":
-    initialVelocity = int(input(
-        "Input a starting velocity (meters/second^2): "))
-    finalVelocity = int(
-        input("Input a final velocity (meters/second^2): "))
-    initialTime = int(input("Input a starting time (seconds): "))
-    finalTime = int(input("Input a final time (seconds): "))
-    velocity = int(input("Input a velocity (meters/second^2): "))
-    curvatureRadius = int(
-        input("Input a curvature radius (meters): "))
 
-    print(accelerationStraightPath(initialVelocity,
-                                   finalVelocity, initialTime, finalTime))
-    print(accelerationCurvedPath(velocity, curvatureRadius))
+    acc = Acceleration()
+
+    initialVelocity = int(input(
+        "Enter a starting velocity (m/s^2): "))
+    finalVelocity = int(
+        input("Enter a final velocity (m/s^2): "))
+    initialTime = int(input("Enter a starting time (s): "))
+    finalTime = int(input("Enter a final time (s): "))
+    velocity = int(input("Enter a velocity (m/s^2): "))
+    curvatureRadius = int(
+        input("Enter a curvature radius (m): "))
+
+    print(acc.accelerationStraightPath(initialVelocity,
+                                       finalVelocity, initialTime, finalTime))
+    print(acc.accelerationCurvedPath(velocity, curvatureRadius))
