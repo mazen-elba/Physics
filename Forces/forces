@@ -1,4 +1,5 @@
 import random
+import math
 
 
 class Forces:
@@ -34,6 +35,14 @@ class Forces:
         normalForce = self.gravitationalForceOneMass(m, g)
         return c * int(normalForce)
 
+    def inclinedPlaneMotion(self, angle):
+        # convert angle from degrees to radians
+        angle = math.radians(int(angle))
+        # pushDownForce = math.cos(angle)
+        forwardMotionForce = math.sin(angle)
+        normalForce = self.gravitationalForceOneMass(m, g)
+        return int(normalForce) * forwardMotionForce
+
 
 # --- Test Cases --- #
 if __name__ == "__main__":
@@ -46,7 +55,8 @@ if __name__ == "__main__":
                          f"\n{'3-gravitational force between 2 objects':<15}",
                          f"\n{'4-gravitational force on 1 object':<15}",
                          f"\n{'5-frictional sliding force':<15}",
-                         f"\n{'6-frictional rolling force':<15}"))
+                         f"\n{'6-frictional rolling force':<15}",
+                         f"\n{'7-inclined plane motion':<15}"))
 
     if choice == "1":
         v1 = int(input("Enter Initial Velcoity (m/s) = "))
@@ -70,7 +80,7 @@ if __name__ == "__main__":
         r = int(input("Enter distance between center of mass of bodies (m) = "))
         print("Graviational Force on both objects is {:.2f} (N).".format(
             f.gravitationalForceTwoMasses(m1, m2, r)))
-    elif choice == "4" or "5" or "6":
+    elif choice == "4" or "5" or "6" or "7":
         m = int(input("What is the mass of the object? (kg) "))
         gChoice = input(
             "Choose an acceleration constant from the following (if not earth): sun, moon, mars, jupiter - ")
@@ -96,3 +106,7 @@ if __name__ == "__main__":
         elif choice == "6":
             print("Frictional Rolling Force on the object is {:.2f} (N).".format(
                 f.frictionalForceRolling(normalForce=f.gravitationalForceOneMass(m, g))))
+        elif choice == "7":
+            inclineAngle = int(input("Enter an incline angle (degrees) = "))
+            print("Inclined Plane Motion on the object is {:.2f} (N).".format(
+                f.inclinedPlaneMotion(inclineAngle)))
