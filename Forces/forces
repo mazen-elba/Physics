@@ -1,3 +1,6 @@
+import random
+
+
 class Forces:
     # constructor
     def __init__(self):
@@ -18,14 +21,32 @@ class Forces:
     def gravitationalForceOneMass(self, m, g):
         return m * g
 
+    # frictional force  - depends on the force at which the ground pushes on an object
+    def frictionalForceSliding(self, normalForce):
+        # reference engineeringtoolbox.com
+        mu = round(random.uniform(0.001, 1.5), 2)
+        normalForce = self.gravitationalForceOneMass(m, g)
+        return mu * int(normalForce)
+
+    def frictionalForceRolling(self, normalForce):
+        # reference engineeringtoolbox.com
+        c = round(random.uniform(0.001, 1.5), 2)
+        normalForce = self.gravitationalForceOneMass(m, g)
+        return c * int(normalForce)
+
 
 # --- Test Cases --- #
 if __name__ == "__main__":
 
     f = Forces()
 
-    choice = input(
-        "Choose from the following functions to execute: 1-acceleration, 2-force, 3-gravitational force between 2 objects, 4-gravitational force on 1 object ")
+    choice = input(print(f"{'Choose from the following functions to execute: ':<15}",
+                         f"\n{'1-acceleration':<15}",
+                         f"\n{'2-force':<15}",
+                         f"\n{'3-gravitational force between 2 objects':<15}",
+                         f"\n{'4-gravitational force on 1 object':<15}",
+                         f"\n{'5-frictional sliding force':<15}",
+                         f"\n{'6-frictional rolling force':<15}"))
 
     if choice == "1":
         v1 = int(input("Enter Initial Velcoity (m/s) = "))
@@ -49,7 +70,7 @@ if __name__ == "__main__":
         r = int(input("Enter distance between center of mass of bodies (m) = "))
         print("Graviational Force on both objects is {:.2f} (N).".format(
             f.gravitationalForceTwoMasses(m1, m2, r)))
-    elif choice == "4":
+    elif choice == "4" or "5" or "6":
         m = int(input("What is the mass of the object? (kg) "))
         gChoice = input(
             "Choose an acceleration constant from the following (if not earth): sun, moon, mars, jupiter - ")
@@ -65,5 +86,13 @@ if __name__ == "__main__":
         else:
             gChoice = "earth"
             g = 9.807  # earth
-        print("Graviational Force on the surface of the {} is {:.2f} (N).".format(gChoice,
-                                                                                  f.gravitationalForceOneMass(m, g)))
+
+        if choice == "4":
+            print("Graviational Force on the surface of the {} is {:.2f} (N).".format(gChoice,
+                                                                                      f.gravitationalForceOneMass(m, g)))
+        elif choice == "5":
+            print("Frictional Sliding Force on the object is {:.2f} (N).".format(
+                f.frictionalForceSliding(normalForce=f.gravitationalForceOneMass(m, g))))
+        elif choice == "6":
+            print("Frictional Rolling Force on the object is {:.2f} (N).".format(
+                f.frictionalForceRolling(normalForce=f.gravitationalForceOneMass(m, g))))
