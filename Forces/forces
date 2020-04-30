@@ -48,6 +48,17 @@ class Forces:
         # convert angle from radians to degrees
         return math.degrees(math.atan(resistanceCoefficient))
 
+    # terminal velocity
+    def terminalVelocity(self, dragCoefficient, density, crossSectionalArea):
+        velocity = math.sqrt((2 * self.gravitationalForceOneMass(m, g)) /
+                             (dragCoefficient * density * crossSectionalArea))
+        return velocity
+
+    # fluid resistance/drag
+    def fluidResistance(self, dragCoefficient, density, crossSectionalArea, speed):
+        drag = 0.5 * dragCoefficient * density * crossSectionalArea * speed**2
+        return drag
+
 
 # --- Test Cases --- #
 if __name__ == "__main__":
@@ -59,10 +70,12 @@ if __name__ == "__main__":
                          f"\n{'2-force':<15}",
                          f"\n{'3-gravitational force between 2 objects':<15}",
                          f"\n{'4-critical angle of inclined path':<15}",
-                         f"\n{'5-gravitational force on 1 object':<15}",
-                         f"\n{'6-frictional sliding force':<15}",
-                         f"\n{'7-frictional rolling force':<15}",
-                         f"\n{'8-inclined plane motion':<15}"))
+                         f"\n{'5-fluid resistance':<15}",
+                         f"\n{'6-gravitational force on 1 object':<15}",
+                         f"\n{'7-frictional sliding force':<15}",
+                         f"\n{'8-frictional rolling force':<15}",
+                         f"\n{'9-inclined plane motion':<15}",
+                         f"\n{'10-terminal velocity':<15}"))
 
     if choice == "1":
         v1 = int(input("Enter Initial Velcoity (m/s) = "))
@@ -91,7 +104,15 @@ if __name__ == "__main__":
             input("Enter a sliding or rolling resistance coefficient = "))
         print("Critical Angle based on given resistance coefficient is {:.2f} (degrees).".format(
             f.criticalAngle(coefficient)))
-    elif choice == "5" or "6" or "7" or "8":
+    elif choice == "5":
+        coefficient = float(
+            input("Enter a sliding or rolling resistance coefficient = "))
+        density = float(input("Enter a density (kg/m^3) = "))
+        area = float(input("Enter a cross-sectional area (m^2) = "))
+        speed = float(input("Enter a velocity (m/s) = "))
+        print("Fluid Resistance is {:.2f} (N). ".format(
+            f.fluidResistance(coefficient, density, area, speed)))
+    elif choice == "6" or "7" or "8" or "9" or "10":
         m = int(input("What is the mass of the object? (kg) "))
         gChoice = input(
             "Choose a gravity constant from the following: earth, sun, moon, mars, jupiter - ")
@@ -107,16 +128,22 @@ if __name__ == "__main__":
         elif gChoice == "sun":
             g = 279
 
-        if choice == "5":
+        if choice == "6":
             print("Graviational Pull on the surface of the {} is {:.2f} (N).".format(gChoice,
                                                                                      f.gravitationalForceOneMass(m, g)))
-        elif choice == "6":
+        elif choice == "7":
             print("Frictional Sliding Force on the object is {:.2f} (N).".format(
                 f.frictionalForceSliding(normalForce=f.gravitationalForceOneMass(m, g))))
-        elif choice == "7":
+        elif choice == "8":
             print("Frictional Rolling Force on the object is {:.2f} (N).".format(
                 f.frictionalForceRolling(normalForce=f.gravitationalForceOneMass(m, g))))
-        elif choice == "8":
+        elif choice == "9":
             inclineAngle = int(input("Enter an incline angle (degrees) = "))
             print("Inclined Plane Forward Motion Force on the object is {:.2f} (N).".format(
                 f.inclinedPlaneMotion(inclineAngle)))
+        elif choice == "10":
+            coefficient = float(input("Enter a drag coefficient = "))
+            density = float(input("Enter a density value (kg/m^3) = "))
+            area = float(input("Enter a cross-sectional area (m^2) = "))
+            print("Terminal Velocity of object of mass {:.2f} (kg) is {:.2f} (m/s).".format(
+                f.gravitationalForceOneMass(m, g), f.terminalVelocity(coefficient, density, area)))
