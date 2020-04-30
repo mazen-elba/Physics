@@ -35,13 +35,18 @@ class Forces:
         normalForce = self.gravitationalForceOneMass(m, g)
         return c * int(normalForce)
 
+    # motion in inclined plane
     def inclinedPlaneMotion(self, angle):
         # convert angle from degrees to radians
-        angle = math.radians(int(angle))
-        # pushDownForce = math.cos(angle)
-        forwardMotionForce = math.sin(angle)
+        # gravitationalPull = math.cos(math.radians(angle))
+        forwardMotionForce = math.sin(math.radians(angle))
         normalForce = self.gravitationalForceOneMass(m, g)
         return int(normalForce) * forwardMotionForce
+
+    # critical angle - to find angle at which forward motion force > fricational force in an inclined plane
+    def criticalAngle(self, resistanceCoefficient):
+        # convert angle from radians to degrees
+        return math.degrees(math.atan(resistanceCoefficient))
 
 
 # --- Test Cases --- #
@@ -53,10 +58,11 @@ if __name__ == "__main__":
                          f"\n{'1-acceleration':<15}",
                          f"\n{'2-force':<15}",
                          f"\n{'3-gravitational force between 2 objects':<15}",
-                         f"\n{'4-gravitational force on 1 object':<15}",
-                         f"\n{'5-frictional sliding force':<15}",
-                         f"\n{'6-frictional rolling force':<15}",
-                         f"\n{'7-inclined plane motion':<15}"))
+                         f"\n{'4-critical angle of inclined path':<15}",
+                         f"\n{'5-gravitational force on 1 object':<15}",
+                         f"\n{'6-frictional sliding force':<15}",
+                         f"\n{'7-frictional rolling force':<15}",
+                         f"\n{'8-inclined plane motion':<15}"))
 
     if choice == "1":
         v1 = int(input("Enter Initial Velcoity (m/s) = "))
@@ -80,12 +86,19 @@ if __name__ == "__main__":
         r = int(input("Enter distance between center of mass of bodies (m) = "))
         print("Graviational Force on both objects is {:.2f} (N).".format(
             f.gravitationalForceTwoMasses(m1, m2, r)))
-    elif choice == "4" or "5" or "6" or "7":
+    elif choice == "4":
+        coefficient = float(
+            input("Enter a sliding or rolling resistance coefficient = "))
+        print("Critical Angle based on given resistance coefficient is {:.2f} (degrees).".format(
+            f.criticalAngle(coefficient)))
+    elif choice == "5" or "6" or "7" or "8":
         m = int(input("What is the mass of the object? (kg) "))
         gChoice = input(
-            "Choose an acceleration constant from the following (if not earth): sun, moon, mars, jupiter - ")
+            "Choose a gravity constant from the following: earth, sun, moon, mars, jupiter - ")
 
-        if gChoice == "moon":
+        if gChoice == "earth":
+            g = 9.807
+        elif gChoice == "moon":
             g = 1.62
         elif gChoice == "mars":
             g = 3.711
@@ -93,20 +106,17 @@ if __name__ == "__main__":
             g = 24.79
         elif gChoice == "sun":
             g = 279
-        else:
-            gChoice = "earth"
-            g = 9.807  # earth
 
-        if choice == "4":
-            print("Graviational Force on the surface of the {} is {:.2f} (N).".format(gChoice,
-                                                                                      f.gravitationalForceOneMass(m, g)))
-        elif choice == "5":
+        if choice == "5":
+            print("Graviational Pull on the surface of the {} is {:.2f} (N).".format(gChoice,
+                                                                                     f.gravitationalForceOneMass(m, g)))
+        elif choice == "6":
             print("Frictional Sliding Force on the object is {:.2f} (N).".format(
                 f.frictionalForceSliding(normalForce=f.gravitationalForceOneMass(m, g))))
-        elif choice == "6":
+        elif choice == "7":
             print("Frictional Rolling Force on the object is {:.2f} (N).".format(
                 f.frictionalForceRolling(normalForce=f.gravitationalForceOneMass(m, g))))
-        elif choice == "7":
+        elif choice == "8":
             inclineAngle = int(input("Enter an incline angle (degrees) = "))
-            print("Inclined Plane Motion on the object is {:.2f} (N).".format(
+            print("Inclined Plane Forward Motion Force on the object is {:.2f} (N).".format(
                 f.inclinedPlaneMotion(inclineAngle)))
